@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class FuncionarioController {
         return funcionarioRepository.findAll();
     }
     
-    
+    //https://www.treinaweb.com.br/blog/criando-uma-api-rest-com-o-spring-boot
     @GetMapping("/funcionarios/{id}")
     public ResponseEntity<Funcionario> getFuncionarioById(@PathVariable(value="id") long id)
     {
@@ -72,4 +73,25 @@ public class FuncionarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    //https://www.treinaweb.com.br/blog/criando-uma-api-rest-com-o-spring-boot
+    @PutMapping("/funcionarios/{id}")
+    public ResponseEntity<Funcionario> updateFuncionario(@PathVariable(value="id") Long funcionarioId, 
+    @Valid @RequestBody Funcionario newFuncionario)
+    {
+        Optional<Funcionario> oldFuncionario = funcionarioRepository.findById(funcionarioId);
+        
+        if(oldFuncionario.isPresent())
+        {
+            Funcionario funcionario = oldFuncionario.get();
+            
+            funcionario.setNome(newFuncionario.getNome());
+            funcionario.setSobrenome(newFuncionario.getSobrenome());
+            funcionario.setEmail(newFuncionario.getEmail());            
+            funcionarioRepository.save(funcionario);
+            
+            return new ResponseEntity<Funcionario>(funcionario,HttpStatus.OK);
+        }
+        else 
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
