@@ -39,7 +39,7 @@ public class FuncionarioController {
     public ResponseEntity<Funcionario> getFuncionarioById(@PathVariable(value="id") Long thows Resour
     */
     
-    @PostMapping("/funcionarios")
+    @PostMapping("/funcionarios/")
     public Funcionario creaFuncionario(@Valid @RequestBody Funcionario funcionario){
         return funcionarioRepository.save(funcionario);
     }
