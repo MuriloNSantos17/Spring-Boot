@@ -39,18 +39,27 @@ public class FuncionarioController {
         return funcionarioRepository.findAll();
     }
     
-    /*
+    
     @GetMapping("/funcionarios/{id}")
-    public ResponseEntity<Funcionario> getFuncionarioById(@PathVariable(value="id") Long thows Resour
-    */
+    public ResponseEntity<Funcionario> getFuncionarioById(@PathVariable(value="id") long id)
+    {
+        Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
+        
+        if(funcionario.isPresent())
+        {
+            return new ResponseEntity<Funcionario>(funcionario.get(),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     
     @PostMapping("/funcionarios")
     public Funcionario creaFuncionario(@Valid @RequestBody Funcionario funcionario){
         return funcionarioRepository.save(funcionario);
     }
     
+    //https://www.treinaweb.com.br/blog/criando-uma-api-rest-com-o-spring-boot
     @DeleteMapping("/funcionarios/{id}")
-    public ResponseEntity<Object> deleteFuncionario(@PathVariable(value="id") Long funcionarioId) 
+    public ResponseEntity<Object> deleteFuncionario( @PathVariable(value="id") Long funcionarioId) 
     {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(funcionarioId);
         
