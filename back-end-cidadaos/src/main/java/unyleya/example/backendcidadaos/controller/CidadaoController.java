@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,4 +54,26 @@ public class CidadaoController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
+    @PutMapping("/cidadaos/{id}")
+    public ResponseEntity<Cidadao> updateCidadado(@PathVariable(value="id") Long cidadaoId, 
+    @Valid @RequestBody Cidadao newCidadao)
+    {
+        Optional<Cidadao> oldCidadao = cidadaoRepository.findById(cidadaoId);
+        
+        if(oldCidadao.isPresent())
+        {
+            Cidadao cidadao = oldCidadao.get();
+            
+            cidadao.setNome(newCidadao.getNome());
+            cidadao.setCpf(newCidadao.getCpf()); 
+            cidadao.setEndereco(newCidadao.getEndereco()); 
+            cidadao.setSexo(newCidadao.getSexo());
+            
+            cidadaoRepository.save(cidadao);
+            
+            return new ResponseEntity<Cidadao>(cidadao,HttpStatus.OK);
+        }
+        else 
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
