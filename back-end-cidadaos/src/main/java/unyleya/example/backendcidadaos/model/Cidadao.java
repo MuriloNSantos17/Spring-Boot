@@ -34,11 +34,11 @@ public class Cidadao {
      
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,7 +81,7 @@ public class Cidadao {
     
    
     
-    private int id;
+    private long id;
     private String nome;
     private String cpf;
     private String endereco;

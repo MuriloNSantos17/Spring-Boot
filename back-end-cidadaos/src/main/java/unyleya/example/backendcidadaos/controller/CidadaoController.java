@@ -48,7 +48,7 @@ public class CidadaoController {
         
         if(cidadao.isPresent())
         {
-            return new ResponseEntity<Cidadao>(cidadao.get(),HttpStatus.OK);
+            return new ResponseEntity<>(cidadao.get(),HttpStatus.OK);
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
