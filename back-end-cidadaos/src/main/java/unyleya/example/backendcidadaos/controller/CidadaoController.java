@@ -5,10 +5,14 @@
 package unyleya.example.backendcidadaos.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +37,20 @@ public class CidadaoController {
     }
     
     @GetMapping("/cidadaos")
-    public List<Cidadao> getAllFuncionarios(){
+    public List<Cidadao> getAllCidadaos(){
         return cidadaoRepository.findAll();
+    }
+    
+    @GetMapping("/cidadaos/{id}")
+    public ResponseEntity<Cidadao> getCidadaoById(@PathVariable(value="id") long id)
+    {
+        Optional<Cidadao> cidadao = cidadaoRepository.findById(id);
+        
+        if(cidadao.isPresent())
+        {
+            return new ResponseEntity<Cidadao>(cidadao.get(),HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
 }
